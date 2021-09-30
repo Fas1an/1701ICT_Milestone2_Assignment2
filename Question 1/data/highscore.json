@@ -1,0 +1,31 @@
+{ 
+    "highscore": [ 
+       {  
+          "name": "Fasian",
+          "score": 10
+       },
+       {  
+        "name": "Renee",
+        "score": 9
+     },
+     {  
+        "name": "Moon",
+        "score": 8
+     },
+     {  
+        "name": "Jmez",
+        "score": 7
+     },
+     {  
+        "name": "Cam",
+        "score": 6
+     },
+     {  
+        "name": "Ayds",
+        "score": 5
+     },
+     {  
+        "name": "Jucci",
+        "score": 4
+     }
+    ]}

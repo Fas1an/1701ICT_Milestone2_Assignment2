@@ -1,6 +1,6 @@
 function preload() {
   //buildings
-  buildingImg = loadImage("../Buidling/buildings.png")
+  buildingImg = loadImage("../Buidling/buildings.png");
 
   //turrent
   turrentImg = loadImage("../Shooters/shooters.png");
@@ -8,24 +8,28 @@ function preload() {
   YbulletImg = loadImage("../Shooters/bullet/bullet2.png");
   BbulletImg = loadImage("../Shooters/bullet/bullet3.png");
 
-  explosionImg = loadImage("../Shooters/bullet/explosion.png")
+  explosionImg = loadImage("../Shooters/bullet/explosion.png");
 
   //Background
-  backgroundImg = loadImage("../background/background.png")
+  backgroundImg = loadImage("../background/background.png");
 
   //font
-  ultraFont = loadFont("../Fonts/Ultra.ttf")
+  ultraFont = loadFont("../Fonts/Ultra.ttf");
 
   //Audio
-  introAud = loadSound("../Audio/introMusic.mp3")
-  battleAud = loadSound("../Audio/battlesong.mp3")
-  laserAud = loadSound("../Audio/laser.mp3")
-  spaceshipAud = loadSound("../Audio/spaceship.mp3")
+  introAud = createAudio("../Audio/introMusic.mp3");
+  battleAud = createAudio("../Audio/battlesong.mp3");
+  laserAud = createAudio("../Audio/laser.mp3");
+  spaceshipAud = createAudio("../Audio/spaceship.mp3");
+  gameoverAud = createAudio("../Audio/gameover.mp3")
 
   //Video
   spaceVid = createVideo("../Video/spaceship.mp4");
-  spaceVid.size(1200,700)
-  spaceVid.play()
-  spaceVid.loop()
-  spaceVid.hide()
-  }
+  spaceVid.size(1200, 700);
+  spaceVid.play();
+  spaceVid.loop();
+  spaceVid.hide();
+
+  //text
+  highscoreJSON = loadJSON("../data/highscore.json")
+}
