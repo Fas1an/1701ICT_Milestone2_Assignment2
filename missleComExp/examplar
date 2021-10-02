@@ -1,0 +1,344 @@
+var canvas;
+var ctx;
+var cities;
+var missiles;
+var explosions;
+var defenders;
+var spawnRate;
+var spawnTimer;
+var updateTimer;
+var currGun;
+var paused = false;
+var score = 0;
+
+function drawCity(x) {
+	ctx.beginPath();
+	ctx.fillStyle = "brown";
+	ctx.moveTo(x+0, 600);
+	ctx.lineTo(x+70, 600);
+	ctx.lineTo(x+70, 570);
+	ctx.lineTo(x+60, 570);
+	ctx.lineTo(x+60, 560);
+	ctx.lineTo(x+50, 560);
+	ctx.lineTo(x+50, 570);
+	ctx.lineTo(x+40, 570);
+	ctx.lineTo(x+40, 560);
+	ctx.lineTo(x+30, 560);
+	ctx.lineTo(x+30, 570);
+	ctx.lineTo(x+20, 570);
+	ctx.lineTo(x+20, 560);
+	ctx.lineTo(x+10, 560);
+	ctx.lineTo(x+10, 570);
+	ctx.lineTo(x+0, 570);
+	ctx.lineTo(x+0, 600);
+	ctx.fill();
+}
+
+var colors = ["red", "orange", "purple", "green", "blue"];
+
+function spawnMissile() {
+	// set timer to spawn next missile
+	var delay = spawnRate + 0.5*spawnRate*Math.random();
+	spawnTimer = setTimeout(spawnMissile, delay);
+
+	// spawn a missile
+	var m = new Missile();
+	m.startx = Math.random() * 800;
+	m.starty = 0;
+	var targ = parseInt((Math.random() * 1000000) % 5);
+	m.targx = 35 + -33.333 + 133 * (targ+1);
+	m.targy = 600;
+	m.length = 0;
+	var c = parseInt((Math.random() * 10000000) % 5);
+	m.color = colors[c];
+	missiles.push(m);
+}
+
+function getX(m) {
+	return m.startx + m.length*(m.targx - m.startx)/600;
+}
+
+function dist(x1, y1, x2, y2) {
+	var dx = x2 - x1;
+	var dy = y2 - y1;
+	var dx2 = dx*dx;
+	var dy2 = dy*dy;
+	var xpy = dx2+dy2;
+	return Math.sqrt(xpy);
+}
+
+function drawLine(m, color) {
+	ctx.beginPath();
+	ctx.strokeStyle = color;
+	ctx.moveTo(m.startx, m.starty);
+	var endy = m.starty + m.length;
+	var endx = getX(m);
+	ctx.lineTo(endx, endy);
+	ctx.stroke();
+}
+
+function explode(m, reason) {
+	// clear the missile trail
+	//drawLine(m, "white");
+
+	// add the explosion
+	var e = new Explosion();
+	e.x = getX(m);
+	e.y = m.starty + m.length;
+	e.radius = 0;
+	if (reason == "ground")
+		e.maxRadius = 50;
+	else
+		e.maxRadius = reason * 1.05;
+	e.incr = 2;
+	explosions.push(e);
+}
+
+function updateExplosion(e) {
+	if (0) {
+		ctx.beginPath();
+		ctx.fillStyle = "white";
+		ctx.strokeStyle = "white";
+		ctx.moveTo(e.x + e.radius, e.y);
+		ctx.arc(e.x, e.y, e.radius, 0, Math.PI*2, false);
+	//	ctx.fill();
+		ctx.stroke();
+	}
+
+	e.radius += e.incr;
+
+	ctx.beginPath();
+	ctx.fillStyle = "yellow";
+	ctx.strokeStyle = "yellow";
+	ctx.moveTo(e.x + e.radius, e.y);
+	ctx.arc(e.x, e.y, e.radius, 0, Math.PI*2, false);
+	ctx.fill();
+//	ctx.stroke();
+
+	if (e.radius > e.maxRadius)
+		e.incr *= -1;
+	return e.radius;
+}
+
+function gameOver() {
+	clearInterval(updateTimer);
+	updateTimer = null;
+	clearTimeout(spawnTimer);
+	spawnTimer = null;
+	var t = document.getElementById("outputText");
+	t.style.top = "270px";
+	t.style.left = "330px";
+	t.innerHTML = "<span style=\"font-size: 24pt; font-weight: bold; font-family: monospace;\">Game Over!</span>";
+	document.body.onclick = function() {
+		t.innerHTML = "";
+		init();
+		document.body.onclick = function() {};
+                score = 0;
+	};
+}
+
+function drawDefender(d) {
+	var x, y, dx, dy;
+	var dx = d.targx - d.x;
+	var dy = d.targy - d.y;
+	var x = d.x + dx * (d.progress/100);
+	var y = d.y + dy * (d.progress/100);
+
+	// draw a dot indicating the defender
+	ctx.beginPath();
+	ctx.fillStyle = "red";
+	ctx.moveTo(x, y);
+	ctx.arc(x, y, 2, 0, Math.PI*2, false);
+	ctx.fill();
+}
+
+function explodeDefender(d) {
+	var x = d.targx;
+	var y = d.targy;
+
+	var e = new Explosion();
+	e.x = x;
+	e.y = y;
+	e.radius = 0;
+	e.maxRadius = 50;
+	e.incr = 2;
+	explosions.push(e);
+}
+
+function update() {
+	var i, j, k;
+	window.status = "missiles in flight: " + missiles.length + "   explosions: " + explosions.length + "   missile spawn rate: " + spawnRate;
+
+	ctx.clearRect(0, 0, 800, 600);
+	drawCities();
+
+	for (i=0; i<defenders.length; i++) {
+		var d = defenders[i];
+		drawDefender(d);
+		d.progress+=4;
+		if (d.progress >= 100) {
+			explodeDefender(d);
+			defenders.splice(i, 1);
+			i--;
+		}		
+	}
+
+	for (i=0; i<missiles.length; i++) {
+		var m = missiles[i];
+		m.length+=3;
+		drawLine(m, m.color);
+		var explodeIt = (m.length >= 600) ? "ground" : -1;
+		for (j=0; j<explosions.length; j++) {
+			var e = explosions[j];
+			var mx = getX(m);
+			var my = m.starty + m.length;
+			if (dist(e.x, e.y, mx, my) <= e.radius) {
+				explodeIt = e.maxRadius;
+				break;
+			}
+		}
+		if (explodeIt != -1) {
+			explode(m, explodeIt);
+			missiles.splice(i, 1);
+			i--; // we just removed an item
+
+			// city go boom
+			if (m.length == 600) {
+				var city = ((m.targx - 35 + 33.333)/133);
+				for (k=0; k<cities.length; k++) {
+					if (cities[k] == city) {
+						cities.splice(k, 1);
+						break;
+					}
+				}
+			}
+		}
+	}
+	for (i=0; i<explosions.length; i++) {
+		var r = updateExplosion(explosions[i]);
+		if (r <= 0) {
+			explosions.splice(i, 1);
+			i--; // we just removed an item
+		}
+	}
+	if (cities.length == 0)
+		gameOver();
+	spawnRate /= 1.0001;
+	score++;
+        document.getElementById("score").value = score;
+}
+
+function init() {
+	canvas = document.getElementById("theCanvas");
+	ctx = canvas.getContext("2d");
+	cities = [1, 2, 3, 4, 5];
+	drawCities();
+	missiles = [];
+	explosions = [];
+	spawnRate = 1500;
+	startLevel();
+}
+
+function spawnDefender(e) {
+	if (!e) e = event;  // hack for IE
+	var eventx = e.clientX; // hack for IE
+	var eventy = e.clientY;
+
+	var color;
+	var n = defenders.length;
+	var maxn = cities.length;
+	if (n < maxn)
+		color = "black";
+	else
+		color = "gray";
+
+	// draw a dot indicating the click
+	ctx.beginPath();
+	ctx.fillStyle = color;
+	ctx.moveTo(e.clientX, e.clientY);
+	var bo;
+	try { bo = document.getBoxObjectFor(canvas); } catch(e) { bo = {x: 13, y: 18}} // hack for IE
+	var x = eventx - bo.x + (window.pageXOffset ? window.pageXOffset : document.body.scrollLeft);
+	var y = eventy - bo.y + (window.pageYOffset ? window.pageYOffset : document.body.scrollTop);
+	ctx.arc(x, y, 2, 0, Math.PI*2, false);
+	ctx.fill();
+
+	if (n < maxn) {
+		currGun = (currGun + 1) % 2;
+		var d = new Defender();
+		d.x = currGun * 800;
+		d.y = 600;
+		d.targx = x;
+		d.targy = y;
+		d.progress = 0;
+		defenders.push(d);
+	}
+}
+
+function drawCities() {
+	for (var i=0; i<cities.length; i++) {
+		drawCity(-33.333+133.333 * cities[i]);
+	}
+}
+
+function startLevel() {
+	var delay = spawnRate + 0.1*spawnRate*Math.random();
+	spawnTimer = setTimeout(spawnMissile, delay);
+
+	var delay2 = 50;
+	updateTimer = setInterval(update, delay2);
+
+	canvas.onclick = spawnDefender;
+	defenders = [];
+	currGun = 0;
+
+	paused = false;
+}
+
+function keyPress(e) {
+	if (e.keyCode == 80) {
+		if (!paused) {
+			clearInterval(updateTimer);
+			updateTimer = null;
+			clearTimeout(spawnTimer);
+			spawnTimer = null;
+		}
+		else {
+			updateTimer = setInterval(update, 50);
+			var delay = spawnRate + 0.1*spawnRate*Math.random();
+			spawnTimer = setTimeout(spawnMissile, delay);
+		}
+		paused = !paused;
+		try {
+			e.preventDefault();
+		} catch (e) {};
+	}
+}
+
+////////////// missile object
+function Missile() {
+	this.startx = null;
+	this.starty = 0;
+	this.targx = null;
+	this.tary = 600;
+	this.length = 0;
+	this.color = null;
+}
+
+////////////// explosion object
+function Explosion() {
+	this.x = null;
+	this.y = null;
+	this.radius = null;
+	this.maxRadius = null;
+	this.incr = null;
+}
+
+////////////// defensive missile object
+function Defender() {
+	this.x = null;
+	this.y = null;
+	this.targx = null;
+	this.targy = null;
+	this.progress = null; // 0 -> 100
+}
