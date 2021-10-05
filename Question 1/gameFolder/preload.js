@@ -26,7 +26,6 @@ function preload() {
   //Video
   spaceVid = createVideo("../Video/spaceship.mp4");
   spaceVid.size(1200, 700);
-  spaceVid.play();
   spaceVid.loop();
   spaceVid.hide();
 
