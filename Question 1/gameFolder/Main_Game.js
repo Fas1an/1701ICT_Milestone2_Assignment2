@@ -4,17 +4,26 @@ let score = 0;
 
 function setup() {
   createCanvas(Width, Height);
-
+  starBackground();
+  //Town
   town = new Group();
-  missle = new Group()
+
+
+
+
+
+  //Turrents
   turrent = new Group();
+  shooters = createSprite(600, 540)
+  shooters.addImage(turrentImg)
+  shooters.addToGroup(turrent)
+
+  
 }
 
 function draw() {
-  starBackground();
   gameScore();
   buildings();
-  shooting();
   MCGame();
 }
 
@@ -24,6 +33,7 @@ function starBackground() {
 
 function buildings() {}
 function shooting() {
+  drawSprites(turrent)
 
 }
 

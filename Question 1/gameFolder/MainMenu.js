@@ -12,13 +12,13 @@ function MCGame() {
     fill(255);
     textFont(ultraFont);
     text("Loading...", width / 2, height / 2);
-    loadAud.play()
+    loadAud.play();
     timer += 5;
 
     if (timer == 1000) {
       gameLoad = false;
       load = true;
-      loadAud.stop()
+      loadAud.stop();
     }
   } else if (load == true) {
     introAud.volume(0.5);
@@ -31,6 +31,7 @@ function MCGame() {
     battleAud.volume(0.015);
     battleAud.play();
     starBackground();
+    shooting();
     mouseAim();
   } else if (endgame == true) {
     gameoverAud.play();
