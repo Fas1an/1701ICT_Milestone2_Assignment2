@@ -1,3 +1,6 @@
+let highscoreJSON;
+
+
 function preload() {
   //buildings
   buildingImg = loadImage("../Buidling/buildings.png");
@@ -22,6 +25,7 @@ function preload() {
   laserAud = createAudio("../Audio/laser.mp3");
   spaceshipAud = createAudio("../Audio/spaceship.mp3");
   gameoverAud = createAudio("../Audio/gameover.mp3")
+  loadAud = createAudio("../Audio/loading.wav")
 
   //Video
   spaceVid = createVideo("../Video/spaceship.mp4");

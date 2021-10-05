@@ -1,0 +1,3 @@
+function mouseAim(){
+    cursor(CROSS);
+}

@@ -1,17 +1,21 @@
 let Width = 1200;
 let Height = 700;
-let highscore = 0
+let score = 0;
 
 function setup() {
   createCanvas(Width, Height);
+
+  town = new Group();
+  missle = new Group()
+  turrent = new Group();
 }
 
 function draw() {
   starBackground();
-  score();
+  gameScore();
   buildings();
   shooting();
-  loading();
+  MCGame();
 }
 
 function starBackground() {
@@ -19,16 +23,20 @@ function starBackground() {
 }
 
 function buildings() {}
-function shooting() {}
+function shooting() {
 
-function score() {
+}
+
+function gameScore() {
+  drawDataJson(highscoreJSON);
+  
   fill(0);
   rect(0, 600, 1200, 100);
   textAlign(CENTER);
   textSize(36);
   fill(255);
   stroke(255);
-  text("Score:", 65, 660);
-
-  text("Highscore:", 1000, 660);
+  text("Score:" + score, 65, 660);
+  text("Highscore:" + highscore, 1000, 660);
 }
+
