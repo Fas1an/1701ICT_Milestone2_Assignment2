@@ -6,10 +6,13 @@ function setup() {
   createCanvas(Width, Height);
   starBackground();
   //Town
+  bullet = new Group()
+
+
   town = new Group();
-
-
-
+  townBuilding = createSprite(600, 150)
+  townBuilding.addImage(buildingImg)
+  townBuilding.addToGroup(town)
 
 
   //Turrents
@@ -31,7 +34,9 @@ function starBackground() {
   image(backgroundImg, 0, 0);
 }
 
-function buildings() {}
+function buildings() {
+  drawSprites(townBuilding)
+}
 function shooting() {
   drawSprites(turrent)
 
@@ -48,5 +53,12 @@ function gameScore() {
   stroke(255);
   text("Score:" + score, 65, 660);
   text("Highscore:" + highscore, 1000, 660);
+}
+
+
+function bullets(){
+  if (keyWentDown(' ')){
+
+  }
 }
 

@@ -13,7 +13,7 @@ function MCGame() {
     textFont(ultraFont);
     text("Loading...", width / 2, height / 2);
     loadAud.play();
-    timer += 5;
+    timer += 10;
 
     if (timer == 1000) {
       gameLoad = false;
@@ -33,9 +33,11 @@ function MCGame() {
     starBackground();
     shooting();
     mouseAim();
+    bullets();
   } else if (endgame == true) {
     gameoverAud.play();
   } else if (leaderboard == true) {
+    leaderboard()
   }
 }
 
