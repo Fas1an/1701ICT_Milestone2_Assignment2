@@ -1,0 +1,22 @@
+numArrMulti = [
+  [13, 27, 18, 26],
+  [4, 5, 1, 3],
+  [32, 35, 37, 39],
+  [1000, 1001, 857, 1],
+];
+ 
+function setup() {
+  solve();
+  console.log(numArrMulti)
+}
+function solve() {
+  for (let i = 0; i < numArrMulti.length; i++) {
+    let biggest = 0
+    for (let j = 0; j < numArrMulti[i].length; j++) {
+      if (numArrMulti[i][j] > biggest) {
+        biggest = numArrMulti[i][j]
+      }
+    }
+    numArrMulti[i] = biggest;
+  }
+}

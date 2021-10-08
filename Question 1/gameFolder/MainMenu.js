@@ -1,6 +1,6 @@
-let gameLoad = true;
+let gameLoad = false;
 let load = false;
-let ingame = false;
+let ingame = true;
 let leaderboard = false;
 let endgame = false;
 let timer = 0;
@@ -26,14 +26,18 @@ function MCGame() {
     let spaceVidImg = spaceVid.get();
     image(spaceVidImg, 0, 0);
     title();
+    
   } else if (ingame == true) {
     introAud.stop();
     battleAud.volume(0.015);
     battleAud.play();
     starBackground();
     shooting();
+    buildings();
     mouseAim();
     bullets();
+    missleSpeed()
+    resetButton()
   } else if (endgame == true) {
     gameoverAud.play();
   } else if (leaderboard == true) {
@@ -55,7 +59,7 @@ function title() {
   textAlign(CENTER);
   textSize(50);
   textFont(ultraFont);
-  text("Missile Command", Width / 2, Height / 2);
+  text("Missile Command: Geometry", Width / 2, Height / 2);
   textSize(25);
   text("press enter to start", Width / 2, Height / 2 + 50);
 }
