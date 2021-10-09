@@ -1,5 +1,6 @@
 let highscoreJSON;
-
+let bulletArr = [];
+let  missileArr = [];
 
 function preload() {
   //buildings
@@ -7,9 +8,10 @@ function preload() {
 
   //turrent
   turrentImg = loadImage("../Shooters/shooters.png");
-  RbulletImg = loadImage("../Shooters/bullet/bullet1.png");
-  YbulletImg = loadImage("../Shooters/bullet/bullet2.png");
-  BbulletImg = loadImage("../Shooters/bullet/bullet3.png");
+  bulletArr = loadImage("../Shooters/bullet/bullet1.png");
+  /* bulletArr[1] = loadImage("../Shooters/bullet/bullet2.png");
+  bulletArr[2] = loadImage("../Shooters/bullet/bullet3.png"); */
+
 
   explosionImg = loadImage("../Shooters/bullet/explosion.png");
 
@@ -27,6 +29,11 @@ function preload() {
   gameoverAud = createAudio("../Audio/gameover.mp3")
   loadAud = createAudio("../Audio/loading.wav")
 
+  //Missle
+  missileArr = loadImage("../Missile/circleLvl1.png")
+  /* missileArr[1] = loadImage("../Missile/circleLvl2.png")
+  missileArr[2] = loadImage("../Missile/circleLvl3.png") */
+  
   //Video
   spaceVid = createVideo("../Video/spaceship.mp4");
   spaceVid.size(1200, 700);

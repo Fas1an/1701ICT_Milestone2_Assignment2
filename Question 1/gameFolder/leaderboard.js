@@ -1,6 +1,5 @@
-let highscore;
 function drawDataJson(leaderboard_data){
-  for (let i = 0; i < leaderboard_data.length; i ++){
+  /* for (let i = 0; i < leaderboard_data.length; i ++){
     let tokens = splitTokens(leaderboard_data[i])
     let highscore = tokens[0];
 
@@ -13,6 +12,6 @@ function drawDataJson(leaderboard_data){
      
     }
   }
-
+ */
 }
       

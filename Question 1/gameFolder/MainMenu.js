@@ -35,9 +35,12 @@ function MCGame() {
     shooting();
     buildings();
     mouseAim();
+    dropMissle()
     bullets();
-    missleSpeed()
+    gameScore()
     resetButton()
+
+    
   } else if (endgame == true) {
     gameoverAud.play();
   } else if (leaderboard == true) {
