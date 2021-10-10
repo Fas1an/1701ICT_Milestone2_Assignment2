@@ -17,27 +17,20 @@ function setup() {
 
   town = new Group();
   for (let i = 0; i < 4; i++) {
-    townSprite[i] = createSprite(150 + 300 * i, 565);
+    townSprite[i] = createSprite(150 + 300 * i, 570);
+    townSprite[i].addToGroup(town)
     townSprite[i].addImage(buildingImg);
-    buildingImg.resize(buildingImg.width / 1.3, buildingImg.width / 1.3);
-    town.add(townSprite[i]);
+    buildingImg.resize(200, 100);
+  
   }
-
-  for (let j = 0; j < 2; j++) {
-    townSprite2[j] = createSprite(300 + 600 * j, 565);
-    townSprite2[j].addImage(buildingImg);
-    town.add(townSprite2[j]);
-  }
-
-
-
 
   //Turrents
   turrent = new Group();
   shooters = createSprite(600, 585);
+  shooters.addToGroup(turrent)
   shooters.addImage(turrentImg);
   turrentImg.resize(turrentImg.width / 2, turrentImg.height / 2);
-  turrent.add(shooters);
+ 
 
   missile = new Group()
     //Create random location for missile  
@@ -50,8 +43,8 @@ function setup() {
        
       randnumY= random(-10, -400)
       append(missileY, randnumY)
-      console.log(missileY)
     }
+
     if (ingame = true){
       for (var i = 0; i <= 25; i ++){
         missileSprite = new Array;

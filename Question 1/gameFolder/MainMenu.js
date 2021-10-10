@@ -41,6 +41,7 @@ function MCGame() {
     gameScore()
     resetButton()
     spriteOverlap()
+   
   } else if (endgame == true) {
     gameoverAud.play();
   } else if (leaderboard == true) {
