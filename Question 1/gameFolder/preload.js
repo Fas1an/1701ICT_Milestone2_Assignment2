@@ -31,6 +31,7 @@ function preload() {
 
   //Missle
   missileArr = loadImage("../Missile/circleLvl1.png")
+  missileFlight = loadImage("../Missile/circleLvl2.png")
   
   //Video
   spaceVid = createVideo("../Video/spaceship.mp4");

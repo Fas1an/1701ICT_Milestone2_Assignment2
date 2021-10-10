@@ -1,9 +1,10 @@
-let gameLoad = true;
+let gameLoad = false;
 let load = false;
 let ingame = false;
 let leaderboard = false;
-let endgame = false;
+let endgame = true;
 let timer = 0;
+let gameTimer = 0;
 
 function MCGame() {
   if (gameLoad == true) {
@@ -41,11 +42,16 @@ function MCGame() {
     gameScore()
     resetButton()
     spriteOverlap()
-   
+
+    gameTimer += 10
+    if (gameTimer === 7000){
+    ingame = false  
+    endgame = true
+    }
+    console.log(gameTimer)
   } else if (endgame == true) {
     gameoverAud.play();
-  } else if (leaderboard == true) {
-    leaderboard()
+    gameLeaderboard()
   }
 }
 
