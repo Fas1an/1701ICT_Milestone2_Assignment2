@@ -1,3 +1,4 @@
+//S5132436 Andy Duong
 let gameLoad = true;
 let load = false;
 let ingame = false;

@@ -1,3 +1,4 @@
+//S5132436 Andy Duong
 let Width = 1200;
 let Height = 700;
 

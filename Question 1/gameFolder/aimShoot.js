@@ -2,6 +2,7 @@ function mouseAim() {
   cursor(CROSS);
 }
 
+//S5132436 Andy Duong
 function spriteOverlap() {
   if (bullet.overlap(missile)) {
     bulletSprites.remove(bullet);
