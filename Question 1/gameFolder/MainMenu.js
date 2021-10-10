@@ -11,6 +11,7 @@ function MCGame() {
     textAlign(CENTER);
     fill(255);
     textFont(ultraFont);
+    textSize(50)
     text("Loading...", width / 2, height / 2);
     loadAud.play();
     loadAud.volume(0.2)
@@ -36,12 +37,10 @@ function MCGame() {
     shooting();
     buildings();
     mouseAim();
-    dropMissle()
     bullets();
     gameScore()
     resetButton()
-
-    
+    spriteOverlap()
   } else if (endgame == true) {
     gameoverAud.play();
   } else if (leaderboard == true) {
@@ -68,7 +67,7 @@ function title() {
   textAlign(CENTER);
   textSize(50);
   textFont(ultraFont);
-  text("Missile Command: Geometry", Width / 2, Height / 2);
+  text("Geo-Command", Width / 2, Height / 2);
   textSize(25);
   text("press enter to start", Width / 2, Height / 2 + 50);
 }

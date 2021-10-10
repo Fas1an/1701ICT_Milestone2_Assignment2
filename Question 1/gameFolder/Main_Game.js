@@ -29,6 +29,9 @@ function setup() {
     town.add(townSprite2[j]);
   }
 
+
+
+
   //Turrents
   turrent = new Group();
   shooters = createSprite(600, 585);
@@ -87,7 +90,7 @@ function gameScore() {
   textSize(36);
   fill(255);
   stroke(255);
-  text("Score:" + score, 65, 660);
+  text("Score:" + score, 80, 660);
   text("Highscore:" + highscore, 1000, 660);
 } 
 
@@ -100,21 +103,15 @@ function bullets() {
       5,
       -270 - atan2(mouseX - shooters.position.x, mouseY - shooters.position.y)
     );
-    bullet.addToGroup(bulletSprites);
+    bulletSprites.addToGroup(bullet);
   } 
    if (bullet.length > 10) {
     bullet.splice(0, 1);
   }
   bulletArr.resize(10, 10);
 
-
-}
-
-function dropMissle() {
-  
   
 }
-
 function resetButton() {
   rsButton = createButton("Reset Game");
   rsButton.position(550, 660);
@@ -124,5 +121,14 @@ function resetButton() {
 function resetLoad() {
   load = true;
 }
+
+function spriteOverlap(){
+if (bullet.overlap(missile)){
+  bulletSprites.remove(bullet)
+  score += 10
+  }
+}
+
+
 
 
