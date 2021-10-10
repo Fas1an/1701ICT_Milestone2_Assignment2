@@ -63,10 +63,18 @@ function keyTyped() {
     ingame = true;
   }
 
-  if (ingame == true && key === "r") {
-    load = true;
+  if (ingame == true && key === 'r') {
+    textSize(50)
+    textAlign(CENTER)
+    fill(255)
+    text('PAUSE', width/2, height/2)
+    frameRate(0)  
+  }
+  if (ingame == true && key === 't') {
+    frameRate(60)  
   }
 }
+
 
 function title() {
   strokeWeight(3);
