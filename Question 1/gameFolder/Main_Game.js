@@ -5,7 +5,7 @@ let score = 0;
 let highscore = 10;
 let turrentMissleSpeed = 1;
 
-let townSprite = [];
+let townSprite;
 
 function setup() {
   createCanvas(1200, 700);
@@ -15,12 +15,22 @@ function setup() {
   bullet = new Group();
 
   town = new Group();
-  for (let i = 0; i < 4; i++) {
-    townSprite = createSprite(150 + 300 * i, 570);
-    townSprite.addToGroup(town);
-    townSprite.addImage(buildingImg);
-    buildingImg.resize(200, 100);
-  }
+  townSprite = createSprite(150, 570);
+  townSprite.addToGroup(town);
+  townSprite.addImage(buildingImg);
+  buildingImg.resize(200, 100);
+
+  townSprite2 = createSprite(450, 570);
+  townSprite2.addToGroup(town);
+  townSprite2.addImage(buildingImg);
+
+  townSprite3 = createSprite(750, 570);
+  townSprite3.addToGroup(town);
+  townSprite3.addImage(buildingImg);
+
+  townSprite4 = createSprite(1050, 570);
+  townSprite4.addToGroup(town);
+  townSprite4.addImage(buildingImg);
 
   //Turrents
   turrent = new Group();
@@ -34,7 +44,7 @@ function setup() {
   missileX = new Array();
   missileY = new Array();
 
-  for (var i = 0; i <= 35; i++) {
+  for (var i = 0; i <= 15; i++) {
     randnumX = random(-100, 1300);
     append(missileX, randnumX);
 
@@ -42,12 +52,12 @@ function setup() {
     append(missileY, randnumY);
   }
 
-  if (ingame = true) {
-    for (var i = 0; i <= 35; i++) {
+  if ((ingame = true)) {
+    for (var i = 0; i <= 15; i++) {
       missileSprite = new Array();
       missileSprite = createSprite(missileX[i], missileY[i]);
       missileSprite.addImage(missileArr);
-      missileArr.resize(50, 50);
+      missileArr.resize(15, 15);
       missileSprite.addToGroup(missile);
       missileSprite.setSpeed(1, random(0, 180));
     }
@@ -69,7 +79,7 @@ function setup() {
       missileSprite2 = new Array();
       missileSprite2 = createSprite(missileX2[j], missileY2[j]);
       missileSprite2.addImage(missileFlight);
-      missileFlight.resize(15, 15);
+      missileFlight.resize(10, 10);
       missileSprite2.addToGroup(missile2);
       missileSprite2.setSpeed(1, 360);
     }
@@ -91,7 +101,7 @@ function shooting() {
   drawSprites(turrent);
   drawSprites(bullet);
   drawSprites(missile);
-  drawSprites(missile2)
+  drawSprites(missile2);
 }
 
 function gameScore() {
@@ -101,8 +111,8 @@ function gameScore() {
   textSize(36);
   fill(255);
   stroke(255);
-  text("Score:" + score, 80, 660);
-  text("Highscore:" + highscore, 1000, 660);
+  text("Score:" + score, 200, 660);
+  text("Highscore:" + highscore, 900, 660);
 
   if (score > highscore) {
     highscore = score;
@@ -133,22 +143,4 @@ function resetButton() {
 
 function resetLoad() {
   load = true;
-}
-
-function spriteOverlap() {
-  if (bullet.overlap(missile)) {
-    bulletSprites.remove(bullet);
-    missileSprite.remove(missile)
-    score += 20;
-  }
-  else if (bullet.overlap(missile2)){
-    bulletSprites.remove(bullet);
-    missileSprite2.remove(missile2)
-    score += 50
-  }
-  else if (missileSprite.c(town)){
-    missileSprite.remove(missile)
-    townSprite.remove(town)
-    score -= 50
-  }
 }

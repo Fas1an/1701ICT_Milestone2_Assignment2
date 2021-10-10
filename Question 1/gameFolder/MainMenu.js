@@ -1,8 +1,8 @@
-let gameLoad = false;
+let gameLoad = true;
 let load = false;
 let ingame = false;
 let leaderboard = false;
-let endgame = true;
+let endgame = false;
 let timer = 0;
 let gameTimer = 0;
 
@@ -12,10 +12,10 @@ function MCGame() {
     textAlign(CENTER);
     fill(255);
     textFont(ultraFont);
-    textSize(50)
+    textSize(50);
     text("Loading...", width / 2, height / 2);
     loadAud.play();
-    loadAud.volume(0.2)
+    loadAud.volume(0.2);
     timer += 10;
 
     if (timer == 1000) {
@@ -29,7 +29,6 @@ function MCGame() {
     let spaceVidImg = spaceVid.get();
     image(spaceVidImg, 0, 0);
     title();
-    
   } else if (ingame == true) {
     introAud.stop();
     battleAud.volume(0.03);
@@ -39,19 +38,21 @@ function MCGame() {
     buildings();
     mouseAim();
     bullets();
-    gameScore()
-    resetButton()
-    spriteOverlap()
+    gameScore();
+    resetButton();
+    spriteOverlap();
 
-    gameTimer += 10
-    if (gameTimer === 7000){
-    ingame = false  
-    endgame = true
+    gameTimer += 10;
+    if (gameTimer === 10000) {
+      ingame = false;
+      endgame = true;
     }
-    console.log(gameTimer)
+    console.log(gameTimer);
   } else if (endgame == true) {
+    battleAud.stop();
     gameoverAud.play();
-    gameLeaderboard()
+    gameLeaderboard();
+    
   }
 }
 
@@ -61,9 +62,8 @@ function keyTyped() {
     ingame = true;
   }
 
-  if (ingame == true && key === 'r') {
+  if (ingame == true && key === "r") {
     load = true;
-    
   }
 }
 
