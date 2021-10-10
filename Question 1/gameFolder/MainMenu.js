@@ -1,6 +1,6 @@
-let gameLoad = false;
+let gameLoad = true;
 let load = false;
-let ingame = true;
+let ingame = false;
 let leaderboard = false;
 let endgame = false;
 let timer = 0;
@@ -13,6 +13,7 @@ function MCGame() {
     textFont(ultraFont);
     text("Loading...", width / 2, height / 2);
     loadAud.play();
+    loadAud.volume(0.2)
     timer += 10;
 
     if (timer == 1000) {
@@ -21,7 +22,7 @@ function MCGame() {
       loadAud.stop();
     }
   } else if (load == true) {
-    introAud.volume(0.5);
+    introAud.volume(0.3);
     introAud.play();
     let spaceVidImg = spaceVid.get();
     image(spaceVidImg, 0, 0);
@@ -29,7 +30,7 @@ function MCGame() {
     
   } else if (ingame == true) {
     introAud.stop();
-    battleAud.volume(0.015);
+    battleAud.volume(0.03);
     battleAud.play();
     starBackground();
     shooting();
@@ -52,6 +53,11 @@ function keyTyped() {
   if (load == true && keyCode === ENTER) {
     load = false;
     ingame = true;
+  }
+
+  if (ingame == true && key === 'r') {
+    load = true;
+    
   }
 }
 

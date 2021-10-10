@@ -1,5 +1,5 @@
-let width = 1200;
-let height = 700;
+let Width = 1200;
+let Height = 700;
 
 let score = 0;
 let highscore = 100
@@ -8,13 +8,10 @@ let turrentMissleSpeed = 1;
 let townSprite = [];
 let townSprite2 = [];
 
-let missileX = [1, 10, 25, 50, 100, 150, 175, 200, 250,400, 550, 600, 700, 800, 8450, 900, 1000, 1050, 1100, 1200]
-let missileY = [-50, -10, -5, -25, - 100, -200, -50, -25, -300, - 250, -100, -10, -80, -90, -75, -25, - 60, -125]
-
-
 function setup() {
   createCanvas(1200, 700);
   starBackground();
+  frameRate(60)
   //Town
   bullet = new Group();
 
@@ -40,6 +37,28 @@ function setup() {
   turrent.add(shooters);
 
   missile = new Group()
+    //Create random location for missile  
+    missileX = new Array()
+    missileY = new Array()
+    
+    for (var i = 0; i <=25; i ++){
+      randnumX= random(-100, 1300)
+      append(missileX, randnumX)
+       
+      randnumY= random(-10, -400)
+      append(missileY, randnumY)
+      console.log(missileY)
+    }
+    if (ingame = true){
+      for (var i = 0; i <= 25; i ++){
+        missileSprite = new Array;
+        missileSprite[i] = createSprite(missileX[i], missileY[i])
+        missileSprite[i].addImage(missileArr)
+        missileArr.resize(10, 10)
+        missileSprite[i].addToGroup(missile)
+        missileSprite[i].setSpeed(1, random(0, 180))
+      }
+    }
 }
 
 function draw() {
@@ -81,20 +100,19 @@ function bullets() {
       5,
       -270 - atan2(mouseX - shooters.position.x, mouseY - shooters.position.y)
     );
-    bullet.add(bulletSprites);
-    if (bullet.length > 10) {
-      bullet.splice(0, 1);
-    }
-    bulletArr.resize(10, 10);
+    bullet.addToGroup(bulletSprites);
+  } 
+   if (bullet.length > 10) {
+    bullet.splice(0, 1);
   }
- 
+  bulletArr.resize(10, 10);
+
+
 }
 
 function dropMissle() {
-  missileSprite = createSprite(width/2, height/2)
-  missileSprite.addImage(missileArr)
-  missileArr.resize(10, 10)
-  missileSprite.addToGroup(missile)
+  
+  
 }
 
 function resetButton() {
