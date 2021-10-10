@@ -129,6 +129,7 @@ function bullets() {
       -270 - atan2(mouseX - shooters.position.x, mouseY - shooters.position.y)
     );
     bulletSprites.addToGroup(bullet);
+    laserAud.play();
   }
   if (bullet.length > 10) {
     bullet.splice(0, 1);
